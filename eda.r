@@ -14,7 +14,7 @@ library(reshape)
 library(caret)
 library(corrplot)
 
-setwd("C:/Users/kevin/Downloads/data_merged.csv")
+# setwd("C:/Users/kevin/Downloads/data_merged.csv")
 earn <- read.csv("data_merged.csv")
 #str(earn)
 
@@ -79,14 +79,20 @@ summary(df_init$Latitude)
 summary(df_init$Longitude)
 summary(df_init$ALLSKY_SFC_LW_DWN)
 
-d <- density(df_init$pm2.5)
-plot(d, main="Distribution of PM2.5 Values")
+# d <- density(df_init$pm2.5)
+# plot(d, main="Distribution of PM2.5 Values")
+ggplot(df_init, aes(x=pm2.5)) + 
+  geom_density() + xlab("PM2.5 Values") + 
+  ggtitle("Distribution of PM2.5 Values")
 
-d <- density(df_init$AOD_55)
-plot(d, main="Distribution of AOD Values")
+# d <- density(df_init$AOD_55)
+# plot(d, main="Distribution of AOD Values")
 
-d <- density(df_init$AOD_55)
-plot(d)
+# d <- density(df_init$AOD_55)
+# plot(d)
+ggplot(df_init, aes(x=AOD_55)) + 
+  geom_density() + xlab("AOD Values") + 
+  ggtitle("Distribution of AOD Values")
 
 newdata <- df_init$pm2.5[1:5000]
 shapiro.test(newdata)
@@ -95,8 +101,12 @@ newdata <- df_init$AOD_55[1:5000]
 shapiro.test(newdata)
 
 
-d <- density(df_init$WD2M)
-plot(d)
+# d <- density(df_init$WD2M)
+# plot(d)
+ggplot(df_init, aes(x=WS2M)) + 
+  geom_density() + xlab("WS2M Values") + 
+  ggtitle("Distribution of WS2M Values")
+# What are WS2M Values? 
 
 aqs = list()
 for (x in 1:1000)
@@ -105,9 +115,14 @@ for (x in 1:1000)
   aqs <- append(aqs, earn$AQS_Site_ID[y])
 }
 
-barplot(table(unlist(aqs)), las=2, cex.names=.5, 
-        ylab ="Frequency", xlab ="Site number",
-        main = "Frequency of Randomly Selected 1000 test sites")
+# barplot(table(unlist(aqs)), las=2, cex.names=.5, 
+#         ylab ="Frequency", xlab ="Site number",
+#         main = "Frequency of Randomly Selected 1000 test sites")
+
+ggplot(table, aes(x=aqs)) + 
+  geom_bar(stat = "identity") + xlab("Site Number") + 
+  ylab("Frequency") + 
+  ggtitle("Frequency of 1000 Randomly Selected Test Sites")
 
 lat = list()
 for (x in 1:1000)
@@ -116,9 +131,14 @@ for (x in 1:1000)
   lat <- append(lat, earn$Latitude[y])
 }
 
-barplot(table(unlist(lat)), las=2, cex.names=.5, 
-        ylab ="Frequency", xlab ="Latitude Values",
-        main = "Frequency of Randomly Selected 1000 Latitude Values")
+# barplot(table(unlist(lat)), las=2, cex.names=.5, 
+#         ylab ="Frequency", xlab ="Latitude Values",
+#         main = "Frequency of Randomly Selected 1000 Latitude Values")
+
+ggplot(table, aes(x=lat)) + 
+  geom_bar(stat = "identity") + xlab("Latitude Values") + 
+  ylab("Frequency") + 
+  ggtitle("Frequency of 1000 Randomly Selected Latitudinal Values")
 
 long = list()
 for (x in 1:1000)
@@ -127,6 +147,11 @@ for (x in 1:1000)
   long <- append(long, earn$Longitude[y])
 }
 
-barplot(table(unlist(long)), las=2, cex.names=.5, 
-        ylab ="Frequency", xlab ="Longitude Values",
-        main = "Frequency of Randomly Selected 1000 Longitude Values")
+# barplot(table(unlist(long)), las=2, cex.names=.5, 
+#         ylab ="Frequency", xlab ="Longitude Values",
+#         main = "Frequency of Randomly Selected 1000 Longitude Values")
+# New barplot using ggplot
+ggplot(table, aes(x=long)) + 
+  geom_bar(stat = "identity") + xlab("Longitude Values") + 
+  ylab("Frequency") + 
+  ggtitle("Frequency of 1000 Randomly Selected Longitudinal Values")
