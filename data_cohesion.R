@@ -15,7 +15,8 @@ sapply(power_plant_dataset, class)
 #changing column names from X and Y to Longitude and Latitude respectively
 colnames(power_plant_dataset)[1] <- "Longitude"
 colnames(power_plant_dataset)[2] <- "Latitude"
-
+#fix rounding errors
+power_plant_dataset$Longitude<-round(power_plant_dataset$Longitude,2)
 
 
 #reads in power monthly
